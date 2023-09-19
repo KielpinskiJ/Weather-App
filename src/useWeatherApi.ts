@@ -7,7 +7,7 @@ const useWeatherApi = (city: string, days: number = 5): [WeatherData[] | null, s
   const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
 
   useEffect(() => {
-    fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&cnt=${days*8}&appid=${apiKey}`)
+    fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&cnt=${days*8}&appid=${apiKey}`)
       .then(response => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
