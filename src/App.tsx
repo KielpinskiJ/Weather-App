@@ -1,25 +1,24 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import CurrentWeatherDisplay from './CurrentWeatherDisplay';
+import FiveDayForecast from './FiveDayForecast';
+import TodaysHighlights from './TodaysHighlights';
+import { WeatherProvider } from './WeatherContext';
 
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <WeatherProvider>
+      <section className='App bg-main h-100v sm:flex sm:flex-row'>
+        <div className='sm:w-30v'>
+          <CurrentWeatherDisplay />
+        </div>
+        <div className='sm:w-70v bg-secondary h-100v'>
+          <FiveDayForecast />
+          <TodaysHighlights />
+        </div> 
+      </section>
+    </WeatherProvider>
   );
 }
 
