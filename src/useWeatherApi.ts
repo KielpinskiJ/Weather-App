@@ -1,13 +1,19 @@
 import { useEffect, useState } from 'react';
 import { WeatherData } from './types';
 
-const useWeatherApi = (city: string, days: number = 5): WeatherData[] | null => {
+const useWeatherApi = (city: string, days: number = 5): [WeatherData[] | null, string | null] => {
   const [data, setData] = useState<WeatherData[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
 
   useEffect(() => {
     fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&cnt=${days*8}&appid=${apiKey}`)
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }    
+        return response.json();
+      })
       .then(data => {
         const dailyData = data.list.reduce((acc: any[], reading: any) => {
           const date = reading.dt_txt.split(' ')[0];
@@ -64,10 +70,17 @@ const useWeatherApi = (city: string, days: number = 5): WeatherData[] | null => 
         });
 
         setData(dailyData);
+      })
+      .catch(error => {
+        if (error.message.includes('404')) {
+          setError('City not found');
+        } else {
+          setError('An error occurred while processing the weather data.');
+        }
       });
   }, [city, days, apiKey]);
 
-  return data;
+  return [data, error];
 };
 
 export default useWeatherApi;

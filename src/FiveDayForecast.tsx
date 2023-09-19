@@ -1,12 +1,9 @@
 import React, { useContext } from 'react';
-import useWeatherApi from './useWeatherApi';
 import { getDate, getWeatherIcon } from './utils';
-import { WeatherData } from './types';
 import { WeatherContext } from './WeatherContext';
 
 const FiveDayForecast: React.FC = () => {
-  const { location } = useContext(WeatherContext);
-  const forecastData: WeatherData[] | null = useWeatherApi(location, 5);
+  const { data: forecastData } = useContext(WeatherContext);
 
   if (!forecastData ) {
     return <div>Loading...</div>; 

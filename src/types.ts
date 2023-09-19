@@ -25,6 +25,9 @@ export interface WeatherData {
 export interface WeatherContextProps {
   location: string;
   setLocation: React.Dispatch<React.SetStateAction<string>>;
+  data: WeatherData[] | null;
+  error: string | null;
+  setDays: (days: number) => void;
 }
 
 export interface WeatherProviderProps {

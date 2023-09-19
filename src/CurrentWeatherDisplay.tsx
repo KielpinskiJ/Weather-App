@@ -1,16 +1,26 @@
-import React, { useContext, useState } from 'react';
-import useWeatherApi from './useWeatherApi';
+import React, { useContext, useEffect, useState } from 'react';
 import { getWeatherIcon, getCurrentDate } from './utils';
-import { WeatherData } from './types';
 import cloudBackground from './assets/Cloud-background.png';
 import SearchMenu from './SearchMenu';
 import { WeatherContext } from './WeatherContext';
+import Alert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
 
 const CurrentWeatherDisplay: React.FC = () => {
-  const { location, setLocation } = useContext(WeatherContext);
-  const weatherDataArray: WeatherData[] | null = useWeatherApi(location, 1);
+  const { data: weatherDataArray, error, setLocation } = useContext(WeatherContext);
   const weatherData = weatherDataArray ? weatherDataArray[0] : null;
   const [searchMenuOpen, setSearchMenuOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (error) {
+      setOpen(true);
+    }
+  }, [error]);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   if (!weatherData || !weatherData.main) {
     return <div>Loading...</div>; 
@@ -40,6 +50,14 @@ const CurrentWeatherDisplay: React.FC = () => {
           {weatherData.name}
         </div>
       </div>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        autoHideDuration={6000}
+        open={open}
+        onClose={handleClose}
+      >
+        <Alert severity="error">{error}</Alert>
+      </Snackbar>
     </div>
   );
 }

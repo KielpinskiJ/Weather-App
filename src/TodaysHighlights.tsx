@@ -1,12 +1,9 @@
 import React, { useContext } from 'react';
-import useWeatherApi from './useWeatherApi';
-import { WeatherData } from './types';
 import { degToCompass } from './utils';
 import { WeatherContext } from './WeatherContext';
 
 const TodaysHighlights: React.FC = () => {
-  const { location } = useContext(WeatherContext);
-  const weatherDataArray: WeatherData[] | null = useWeatherApi(location, 1);
+  const { data: weatherDataArray } = useContext(WeatherContext);
   const weatherData = weatherDataArray ? weatherDataArray[0] : null;
 
   if (!weatherData || !weatherData.main || !weatherData.wind) {
