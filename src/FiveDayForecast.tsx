@@ -10,7 +10,7 @@ const FiveDayForecast: React.FC = () => {
   }
 
   return (
-    <div className='flex justify-between p-11 flex-wrap bg-secondary gap-6 sm:justify-center sm:px-7 sm:pb-5 sm:pt-10 hd:px-30 fullhd:px-64 fullhd:pb-20 fullhd:pt-40'>
+    <div className='flex justify-center p-10 xs:justify-between flex-wrap bg-secondary gap-6 sm:justify-center sm:px-7 sm:pb-5 sm:pt-10 hd:px-30 fullhd:px-64 fullhd:pb-20 fullhd:pt-40'>
       {forecastData.map((dayData, index) => {
         if (!dayData || !dayData.main) {
           return null;
